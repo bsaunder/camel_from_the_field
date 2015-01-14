@@ -3,3 +3,8 @@ order: manual
 slides:
 - title
 - agenda
+- div_intro_to_camel
+- div_camel_demos
+- div_future_of_camel
+- div_qa
+- qa
