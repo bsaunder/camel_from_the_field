@@ -63,12 +63,16 @@
     p {
       text-align: left;
     }
-    .reveal table th,
-    .reveal table td {
+    .reveal table th {
       text-align: left;
       padding: 0.2em 0.5em 0.2em 0.5em;
       border-bottom: 1px solid;
     }
+		.reveal table td {
+			text-align: left;
+			padding: 0.2em 0.5em 0.2em 0.5em;
+			border-bottom: none;
+		}
     .reveal table tr:last-child td {
       border-bottom: none;
     }
@@ -112,10 +116,10 @@
               <li>Camel Features</li>
               <li>Enterprise Integration Patterns</li>
               <li>Key Components</li>
-              <lfifii>Camel Architecture</li>
-          <li>Supported Platforms</li>
-          </ul>
+            </ul>
           </li>
+					<li>Camel Architecture</li>
+					<li>Supported Platforms</li>
           <li>Camel Hands On
             <ul>
               <li>Common EIPs</li>
@@ -129,26 +133,27 @@
         </ul>
       </section>
 
-      <section data-background="images/rh_bg6.jpg" data-background-size="contain">
+      <section data-background="images/rh_bg2.jpg" data-background-size="contain">
         <h1>Introduction to Camel</h1>
       </section>
 
       <section>
         <section>
           <h2>What is Camel</h2>
-          <blockquote  class="fragment" cite="http://camel.apache.org/what-is-camel.html">
+          <blockquote class="fragment" cite="http://camel.apache.org/what-is-camel.html">
             Apache Camel ™ is a versatile open-source integration framework based on known Enterprise Integration Patterns.
             <br/>
             <br/>- Apache Camel Website
           </blockquote>
           <br/>
-          <blockquote  class="fragment" cite="http://stackoverflow.com/questions/8845186/what-exactly-is-apache-camel">
+          <blockquote class="fragment" cite="http://stackoverflow.com/questions/8845186/what-exactly-is-apache-camel">
             Apache Camel is an open source Java framework that focuses on making integration easier and more accessible to developers. It does this by providing: concrete implementations of all the widely used EIPs, connectivity to a great variety of transports and
             APIs, and easy to use Domain Specific Languages (DSLs) to wire EIPs and transports together
             <br/>
             <br/>- Jonathan Anstey
           </blockquote>
         </section>
+
         <section>
           <h2>Why an Integration Framework</h2>
           <p class="fragment">Integration is Critical for Business</p>
@@ -162,56 +167,192 @@
             Prevents Re-inventing the Wheel
           </p>
         </section>
+
         <section>
           <h2>History of Camel</h2>
-					<p class="fragment">
-						Started in March 2007
-					</p>
-					<p class="fragment">
-						Founded by
-						<ul class="fragment">
-							<li class="fragment">
-								James Strachan
-							</li>
-							<li class="fragment">
-								Rob Davies
-							</li>
-							<li class="fragment">
-								Hiram Chirino
-							</li>
-							<li class="fragment">
-								Guillaume Nodet
-							</li>
-						</ul>
-					</p>
-					<p class="fragment">
-						First Release in June 2007
-					</p>
-					<p class="fragment">
-						Spawned from Apache ServiceMix and Apache ActiveMQ
-					</p>
-					<aside class="notes">
-						ServiceMix and ActiveMQ both had a need to implement EIP's. A decision was made to put that functionality into a seperate Framework that could be used anywhere. Thus Camel was born.
-					</aside>
+          <p class="fragment">
+            Started in March 2007
+          </p>
+          <p class="fragment">
+            Founded by
+            <ul class="fragment">
+              <li class="fragment">
+                James Strachan
+              </li>
+              <li class="fragment">
+                Rob Davies
+              </li>
+              <li class="fragment">
+                Hiram Chirino
+              </li>
+              <li class="fragment">
+                Guillaume Nodet
+              </li>
+            </ul>
+          </p>
+          <p class="fragment">
+            First Release in June 2007
+          </p>
+          <p class="fragment">
+            Spawned from Apache ServiceMix and Apache ActiveMQ
+          </p>
+          <aside class="notes">
+            ServiceMix and ActiveMQ both had a need to implement EIP's. A decision was made to put that functionality into a seperate Framework that could be used anywhere. Thus Camel was born.
+          </aside>
         </section>
       </section>
 
-      <section data-background="images/rh_bg3.jpg" data-background-size="contain">
-        <h1>Hands On Camel</h1>
-      </section>
-
-      <section data-background="images/rh_bg4.jpg" data-background-size="contain">
-        <h1>Future of Camel</h1>
-      </section>
-
-      <section data-background="images/rh_bg5.jpg" data-background-size="contain">
-        <h1>Q & A</h1>
+      <section>
+        <h2>Camel Features</h2>
+        <p class="fragment">
+          Very Leightweight
+          <span class="fragment">, Consists of only a handful of JARs</span>
+        </p>
+        <p class="fragment">
+          Easy Configuration
+        </p>
+        <p class="fragment">
+          No Heavy Specification
+        </p>
+        <p class="fragment">
+          No Container Dependencies
+        </p>
+        <p class="fragment">
+          Payload Agnostic
+        </p>
       </section>
 
       <section>
-        <h2>Questions?</h2>
+        <h2>Simple Programming</h2>
       </section>
 
+      <section>
+				<section>
+					<h2>Hundreds of Components</h2>
+					<table>
+						
+					</table>
+				</section>
+
+      </section>
+
+      <section>
+        <h2>Error Handling</h2>
+      </section>
+
+      <section>
+        <h2>Security</h2>
+      </section>
+
+      <section>
+        <h2>Scalable</h2>
+      </section>
+
+      <section>
+        <h2>Testable</h2>
+      </section>
+
+      <section>
+        <h2>Tooling</h2>
+      </section>
+
+      <section>
+        <h2>Enterprise Integration Patterns</h2>
+      </section>
+
+      <section>
+        <section>
+          <h2>Key Components</h2>
+        </section>
+
+        <section>
+          <h2>CXF</h2>
+        </section>
+
+        <section>
+          <h2>CXFRS</h2>
+        </section>
+
+        <section>
+          <h2>JMS / ActiveMQ</h2>
+        </section>
+
+        <section>
+          <h2>AMQP</h2>
+        </section>
+
+        <section>
+          <h2>Infinispan</h2>
+        </section>
+
+        <section>
+          <h2>CDI</h2>
+        </section>
+      </section>
+
+			<section data-background="images/rh_bg3.jpg" data-background-size="contain">
+				<h1>Architecture</h1>
+			</section>
+
+      <section>
+        <h2>High Level Architecture</h2>
+      </section>
+
+      <section>
+        <h2>Domain Specific Language</h2>
+      </section>
+
+      <section>
+        <h2>Route</h2>
+      </section>
+
+      <section>
+        <h2>Endpoint</h2>
+      </section>
+
+      <section>
+        <h2>Component</h2>
+      </section>
+
+      <section>
+        <h2>Processor</h2>
+      </section>
+
+      <section>
+        <h2>Message / Exchange</h2>
+      </section>
+
+			<section data-background="images/rh_bg4.jpg" data-background-size="contain">
+				<h1>Supported Platforms</h1>
+			</section>
+
+      <section>
+        <h2>Multiple Platforms</h2>
+      </section>
+
+      <section>
+        <h2>Red Hat Products</h2>
+      </section>
+
+      <section data-background="images/rh_bg5.jpg" data-background-size="contain">
+        <h1>Hands On Camel</h1>
+      </section>
+
+			<section>
+				<h2>TODO</h2>
+			</section>
+
+      <section data-background="images/rh_bg6.jpg" data-background-size="contain">
+        <h1>Future of Camel</h1>
+      </section>
+
+			<section>
+				<h2>TODO</h2>
+			</section>
+
+      <section data-background="images/rh_bg1.jpg" data-background-size="contain">
+        <h1>Questions?</h1>
+      </section>
 
     </div>
 
