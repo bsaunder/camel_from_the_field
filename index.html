@@ -140,13 +140,13 @@
       <section>
         <section>
           <h2>What is Camel</h2>
-          <blockquote class="fragment" cite="http://camel.apache.org/what-is-camel.html">
+          <blockquote  cite="http://camel.apache.org/what-is-camel.html">
             Apache Camel ™ is a versatile open-source integration framework based on known Enterprise Integration Patterns.
             <br/>
             <br/>- Apache Camel Website
           </blockquote>
           <br/>
-          <blockquote class="fragment" cite="http://stackoverflow.com/questions/8845186/what-exactly-is-apache-camel">
+          <blockquote  cite="http://stackoverflow.com/questions/8845186/what-exactly-is-apache-camel">
             Apache Camel is an open source Java framework that focuses on making integration easier and more accessible to developers. It does this by providing: concrete implementations of all the widely used EIPs, connectivity to a great variety of transports and
             APIs, and easy to use Domain Specific Languages (DSLs) to wire EIPs and transports together
             <br/>
@@ -156,44 +156,44 @@
 
         <section>
           <h2>Why an Integration Framework</h2>
-          <p class="fragment">Integration is Critical for Business</p>
-          <p class="fragment">
+          <p >Integration is Critical for Business</p>
+          <p >
             Framework does the Heavy Lifting
           </p>
-          <p class="fragment">
+          <p >
             Lets you Focus on the Problem
           </p>
-          <p class="fragment">
+          <p >
             Prevents Re-inventing the Wheel
           </p>
         </section>
 
         <section>
           <h2>History of Camel</h2>
-          <p class="fragment">
+          <p >
             Started in March 2007
           </p>
-          <p class="fragment">
+          <p >
             Founded by
-            <ul class="fragment">
-              <li class="fragment">
+            <ul >
+              <li >
                 James Strachan
               </li>
-              <li class="fragment">
+              <li >
                 Rob Davies
               </li>
-              <li class="fragment">
+              <li >
                 Hiram Chirino
               </li>
-              <li class="fragment">
+              <li >
                 Guillaume Nodet
               </li>
             </ul>
           </p>
-          <p class="fragment">
+          <p >
             First Release in June 2007
           </p>
-          <p class="fragment">
+          <p >
             Spawned from Apache ServiceMix and Apache ActiveMQ
           </p>
           <aside class="notes">
@@ -204,29 +204,157 @@
 
       <section>
         <h2>Camel Features</h2>
-        <p class="fragment">
+        <p >
           Very Leightweight
-          <span class="fragment">, Consists of only a handful of JARs</span>
+          <span >, Consists of only a handful of JARs</span>
         </p>
-        <p class="fragment">
+        <p >
           Easy Configuration
         </p>
-        <p class="fragment">
+        <p >
           No Heavy Specification
         </p>
-        <p class="fragment">
+        <p >
           No Container Dependencies
         </p>
-        <p class="fragment">
+        <p >
           Payload Agnostic
         </p>
       </section>
 
       <section>
+      <section>
         <h2>Simple Programming</h2>
+        <p >Minimal Configuration</p>
+        <p >
+          DSL Based Programming
+        </p>
+        <p >
+          6 DSL's and Counting
+        </p>
+        <p>
+          <ul>
+            <li >
+              Java DSL
+            </li>
+            <li >
+              Spring XML
+            </li><li >
+              Blueprint XML
+            </li><li >
+              Rest DSL
+            </li><li >
+              Groovy DSL
+            </li><li >
+              Scala DSL
+            </li><li >
+              Kotlin DSL in the works
+            </li>
+          </ul>
+        </p>
       </section>
 
       <section>
+        <h2>Java DSL</h2>
+        <pre>
+          <code data-trim>
+from("file:src/data?noop=true")
+  .choice()
+    .when(xpath("/person/city = &#39;London&#39;"))
+      .to("file:target/messages/uk")
+    .otherwise()
+      .to("file:target/messages/others");
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <h2>Spring XML</h2>
+        <pre>
+          <code data-trim>
+<route>
+  <from uri="direct:a"/>
+  <choice>
+    <when>
+      <xpath>$foo = 'bar'</xpath>
+      <to uri="direct:b"/>
+    </when>
+    <when>
+      <xpath>$foo = 'cheese'</xpath>
+      <to uri="direct:c"/>
+    </when>
+    <otherwise>
+      <to uri="direct:d"/>
+    </otherwise>
+  </choice>
+</route>
+          </code>
+        </pre>
+      </section>
+
+      <section>
+        <h2>Rest DSL</h2>
+        <table width="100%">
+          <tr>
+            <td>
+              <pre>
+                <code>
+rest("/say")
+  .get("/hello").to("direct:hello")
+  .get("/bye").consumes("application/json").to("direct:bye")
+
+
+
+                </code>
+              </pre>
+            </td>
+            <td>
+              <pre>
+                <code data-trim>
+<rest path="/say">
+  <get uri="/hello">
+    <to uri="direct:hello"/>
+  </get>
+  <get uri="/bye" consumes="application/json">
+    <to uri="direct:bye"/>
+  </get>
+</rest>
+                </code>
+              </pre>
+            </td>
+          </tr>
+        </table>
+        <aside class="notes">
+          Not Available until Camel 2.14
+        </aside>
+      </section>
+    </section>
+
+      <section>
+        <section>
+          <h2>Components</h2>
+          <p>
+            191 Components and counting
+          </p>
+          <p>
+            Component for pretty much anything
+          </p>
+          <p>
+            Most commonley used components
+          </p>
+          <p>
+            <ul>
+              <li>CXF</li>
+              <li>CXFRS</li>
+              <li>JMS</li>
+              <li>ActiveMQ</li>
+              <li>AMQP</li>
+              <li>Infinispan</li>
+              <li>CDI</li>
+              <li>Drools</li>
+            </ul>
+          </p>
+        </section>
         <section>
           <h2>Lots of Components</h2>
           <table style="margin: 0 auto;">
@@ -507,63 +635,435 @@
               </td>
             </tr>
           </table>
-					<aside class="notes">
-						There are 191 Components as of Jan 21, 2015.
-					</aside>
         </section>
       </section>
 
-      <section>
-        <h2>Error Handling</h2>
-      </section>
+<section>
+  <section>
+    <h2>Error Handling</h2>
+    <p>
+      Try...Catch...Finally
+    </p>
+    <p>
+      Exception Clause in Java DSL
+    </p>
+    <p>
+      Error Handlers
+    </p>
+    <p>
+      <ul>
+        <li>
+          Default Error Handler
+        </li>
+        <li>
+          Dead Letter Channel
+        </li>
+        <li>
+          Logging Error Handler
+        </li>
+        <li>
+          No Error Handler
+        </li>
+        <li>
+          Transaction Error Handler
+        </li>
+      </ul>
+    </p>
+    <p>
+      Support for Exponential Backoff of Retries
+    </p>
+    <aside class="notes">
+      DefaultErrorHandler does not retry, DeadLetterChannel has DLQ and retries.
+    </aside>
+  </section>
+
+  <section>
+    <h2>Error Handling Code</h2>
+    <pre>
+      <code data-trim>
+from("direct:start")
+  .doTry()
+    .process(new ProcessorFail())
+    .to("mock:result")
+  .doCatch(IOException.class, IllegalStateException.class)
+    .to("mock:catch")
+  .doFinally()
+    .to("mock:finally")
+  .end();
+      </code>
+    </pre>
+    <pre>
+      <code data-trim>
+onException(ValidationException.class)
+  .to("activemq:validationFailed");
+
+onException(ShipOrderException.class)
+  .to("activemq:shipFailed");
+
+from("seda:order").to("bean:processOrder");
+      </code>
+    </pre>
+    <pre>
+      <code data-trim>
+errorHandler(deadLetterChannel("jms:queue:dead")
+  .useOriginalMessage()
+  .mamimumRedeliveries(5)
+  .redeliverDelay(5000));
+
+errorHandler(defaultErrorHandler()
+  .allowRedeliveryWhileStopping(false)
+  .maximumRedeliveries(20)
+  .redeliveryDelay(1000)
+  .retryAttemptedLogLevel(LoggingLevel.INFO));
+      </code>
+    </pre>
+  </section>
+
+  <section>
+    <h2>Redelivery Delay Patterns</h2>
+    <p>
+      Allows for custom backoff of retries.
+    </p>
+    <p>
+      Syntax: <i>limit:delay;limit2:delay2;limit3:delay3;...;limitN:delayN</i>
+    </p>
+    <p>
+      If <i>delayPattern=5:1000;10:5000;20:20000</i> then we get
+      <ul>
+        <li>Redelivery attempt number 1..4 = 0 sec (as the first group starts with 5)</li>
+        <li>Redelivery attempt number 5..9 = 1 sec (the first group)</li>
+        <li>Redelivery attempt number 10..19 = 5 sec (the second group)</li>
+        <li>Redelivery attempt number 20.. = 20 sec (the last group)</li>
+      </ul>
+    </p>
+  </section>
+</section>
+
 
       <section>
-        <h2>Security</h2>
+        <section>
+          <h2>Security</h2>
+          <p>
+            Four Broad Categories of Security Offered
+          </p>
+          <p>
+            <ul>
+              <li>
+                Route Security
+              </li>
+              <li>
+                Payload Security
+              </li>
+              <li>
+                Endpoint Security
+              </li>
+              <li>
+                Configuration Security
+              </li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>Route Security</h2>
+          <p>
+            Policy driven security for routes or route segments
+          </p>
+          <p>
+            <ul>
+              <li>Shiro Security</li>
+              <li>Spring Security</li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>Payload Security</h2>
+          <p>
+            Encryption and decryption services for secure paylods
+          </p>
+          <p>
+            <ul>
+              <li>XMLSecurity DataFormat (XML Encryption support)</li>
+              <li>XML Security component (XML Signature support)</li>
+              <li>Crypto DataFormat (Encryption + PGP support)</li>
+              <li>Crypto component (Signature support)</li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>Endpoint Security</h2>
+          <p>
+            Some components can be secured, but not all
+          </p>
+          <p>
+            <ul>
+              <li>Jetty - HTTP Basic &amp; SSL</li>
+              <li>CXF - HTTP Basic &amp; WS-Security</li>
+              <li>Spring Web Services - HTTP Basic &amp; WS-Security</li>
+              <li>Netty - SSL</li>
+              <li>MINA - SSL</li>
+              <li>Cometd - SSL</li>
+              <li>JMS - JAAS and SSL for client <--> broker communication</li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>Configuration Security</h2>
+          <p>
+            Externalize configuration properties
+          </p>
+          <p>
+            <ul>
+              <li>Properties</li>
+              <li>Jasypt - Encrypted values</li>
+              <li>JSSE Utility - Configure SSL/TLS</li>
+            </ul>
+          </p>
+        </section>
       </section>
 
       <section>
         <h2>Scalable</h2>
+        <p>
+          Load Balancing Policies
+        </p>
+        <p>
+          Thread and Service Pools
+        </p>
+        <p>
+          Asynchronous API
+        </p>
+        <p>
+          Clustering
+        </p>
+        <p>
+          <ul>
+            <li>Same JVM &amp; Context - Use direct or seda</li>
+            <li>Same JVM, Different Context - Use vm</li>
+            <li>Different JVM - Use jms, activemq, ftp, etc...</li>
+            <li>OSGi - Use Normalized Message Router (NMR)</li>
+          </ul>
+        </p>
+        <aside class="notes">
+          NMR is used for interconnecting routes deployed directly into the OSGi container but in different bundles.
+        </aside>
       </section>
 
       <section>
-        <h2>Testable</h2>
+        <h2>HA &amp; Failover</h2>
+        <p>
+          Not natively supported
+        </p>
+        <p>
+          Provided by the following components
+        </p>
+        <p>
+          <ul>
+            <li>Camel Fabric Master component</li>
+            <li>Camel ZooKeeper via a Route policy</li>
+            <li>Camel JGroups</li>
+          </ul>
+        </p>
+        <aside class="notes">
+          Solutions Article 667563. JGroups not until Camel 2.13
+        </aside>
       </section>
 
       <section>
-        <h2>Tooling</h2>
+        <section>
+          <h2>Testable</h2>
+          <p>
+            Native test frameworks
+          </p>
+          <p>
+            Supports unit and integration Testing
+          </p>
+          <p>
+            Built in mock &amp; stub support
+          </p>
+          <p>
+            Advanced testing with NotifyBuilder and AdviceWith
+          </p>
+          <p>
+            Works with 3rd party test frameworks
+          </p>
+          <p>
+            <ul>
+              <li>PaxExam</li>
+              <li>Arquillian</li>
+              <li>JUnit</li>
+              <li>TestNG</li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>Available Test Harnesses</h2>
+          <table width="100%">
+            <tr>
+              <th>Name</th>
+              <th>Component</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+            <td>Camel Test</td>
+            <td>camel-test</td>
+            <td>Standalone Java library to create Camel test cases using a single Java class for all your configuration and
+              routing without using Spring or Guice</td>
+          </tr>
+              <tr>
+              <td>Spring Testing</td>
+              <td>camel-test-spring</td>
+              <td>Supports JUnit 4 tests that bootstrap a test environment using Spring without needing to be familiar with Spring Test.</td>
+            </tr>
+              <tr>
+              <td>Blueprint Testing</td>
+              <td>camel-test-blueprint</td>
+              <td>Provides the ability to do unit testing on blueprint configurations</td>
+            </tr>
+              <tr>
+              <td>Guice</td>
+              <td>camel-guice</td>
+              <td>Uses Guice to dependency inject your test classes</td>
+            </tr>
+              <tr>
+              <td>Camel TestNG</td>
+              <td>camel-testng</td>
+              <td>Supports plain TestNG based tests with or without Spring or Guice</td>
+            </tr>
+          </table>
+        </section>
+
+        <section>
+          <h2>Example Camel Test</h2>
+          <pre>
+            <code class="java" data-trim>
+public class FilterTest extends CamelTestSupport {
+  @EndpointInject(uri = "mock:result")
+  protected MockEndpoint resultEndpoint;
+  @Produce(uri = "direct:start")
+  protected ProducerTemplate template;
+  @Test
+  public void testSendMatchingMessage() throws Exception {
+    String expectedBody = "matched";
+    resultEndpoint.expectedBodiesReceived(expectedBody);
+    template.sendBodyAndHeader(expectedBody, "foo", "bar");
+    resultEndpoint.assertIsSatisfied();
+  }
+  @Override
+  protected RouteBuilder createRouteBuilder() {
+    return new RouteBuilder() {
+      public void configure() {
+        from("direct:start").filter(header("foo").isEqualTo("bar")).to("mock:result");
+      }
+    };
+  }
+}
+            </code>
+          </pre>
+        </section>
       </section>
 
       <section>
-        <h2>Enterprise Integration Patterns</h2>
+        <section>
+          <h2>Tooling</h2>
+          <p>
+            Several tools exist for working with and monitoring Camel
+          </p>
+          <p>
+            <ul>
+              <li>Camel Maven Plugin</li>
+              <li>JBoss Tools for Camel</li>
+              <li>Talend Open Studio</li>
+              <li>Hawtio Camel Plugin</li>
+            </ul>
+          </p>
+          <aside class="notes">
+            Talend Open Studio is an Eclipse based IDE for Talend products, similar to JBDS.
+          </aside>
+        </section>
+
+        <section>
+          <h2>JBoss Tools for Camel</h2>
+          <p>
+            <img src="images/features-fuse-route-ed.png"/>
+          </p>
+        </section>
+
+        <section>
+          <h2>JBoss Tools for Camel</h2>
+          <p>
+            <img src="images/features-fuse-tracing.png"/>
+          </p>
+        </section>
       </section>
 
       <section>
         <section>
-          <h2>Key Components</h2>
+          <h2>Enterprise Integration Patterns</h2>
+          <table width="100%">
+            <tr>
+              <td style="vertical-align: top;">
+                <p>
+                  Similar to Design Patterns
+                </p>
+                <p>
+                  Focused specifically on Integration
+                </p>
+                <p>
+                  Written by Gregor Hohpe &amp; Bobby Wolf
+                </p>
+                <p>
+                  65 Documented Patterns
+                </p>
+                <p>
+                  Camel supports 53 of them
+                </p>
+              </td>
+              <td style="vertical-align: top;">
+                <img src="images/eip_patterns.jpg" border="0"/>
+              </td>
+            </tr>
+          </table>
         </section>
 
         <section>
-          <h2>CXF</h2>
+          <h2>Enterprise Integration Patterns</h2>
+          <img src="images/EAIPatterns.png" width="100%"/>
         </section>
 
         <section>
-          <h2>CXFRS</h2>
-        </section>
+          <h2>EIP to Camel</h2>
+          <table width="100%">
+            <tr>
+              <td style="text-align: center">
+                <img src="images/cbr.jpg"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <pre>
+                  <code class="java">
+Endpoint newOrder = endpoint("activemq:queue:newOrder");
+Predicate isWidget = xpath("/order/product ='widget'");
+Endpoint widget = endpoint("activemq:queue:widget");
+Endpoint gadget = endpoint("activemq:queue:gadget");
 
-        <section>
-          <h2>JMS / ActiveMQ</h2>
-        </section>
-
-        <section>
-          <h2>AMQP</h2>
-        </section>
-
-        <section>
-          <h2>Infinispan</h2>
-        </section>
-
-        <section>
-          <h2>CDI</h2>
+from(newOrder)
+  .choice()
+    .when(isWidget)
+      .to(widget)
+    .otherwise()
+      .to(gadget)
+  .end();
+                  </code>
+                </pre>
+              </td>
+            </tr>
+          </table>
         </section>
       </section>
 
