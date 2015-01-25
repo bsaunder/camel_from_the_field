@@ -1073,30 +1073,108 @@ from(newOrder)
 
       <section>
         <h2>High Level Architecture</h2>
+        <img src="images/camel-arch.png" width="75%"/>
       </section>
 
       <section>
         <h2>Domain Specific Language</h2>
+        <p>
+          Used for defining routes
+        </p>
+        <p>
+          Multiple DSL's exist
+        </p>
       </section>
 
       <section>
         <h2>Route</h2>
+        <p>
+          Set of rules that define message flow
+        </p>
+        <p>
+          Consists of:
+        </p>
+        <p>
+          <ul>
+            <li>
+              Endpoints
+            </li>
+            <li>
+              EIP Constructs
+            </li>
+            <li>
+              Processors
+            </li>
+          </ul>
+        </p>
       </section>
 
       <section>
         <h2>Endpoint</h2>
+        <p>
+          Implementation of the Message Endpoint pattern
+        </p>
+        <p>
+          Created by components
+        </p>
+        <p>
+          Referred to by uniue URI's in the DSL
+        </p>
+        <p>
+          Consumers receive messages
+        </p>
+        <p>
+          Producers send messages
+        </p>
       </section>
 
       <section>
         <h2>Component</h2>
+        <p>
+          Essentially a factory for Endpoint instances
+        </p>
+        <p>
+          Adds functionality to Camel
+        </p>
+        <p>
+          Custom components extend DefaultComponent
+        </p>
       </section>
 
       <section>
         <h2>Processor</h2>
+        <p>
+          Consumes message exchanges
+        </p>
+        <p>
+          Processor interface for building custom Processors
+        </p>
+        <p>
+          Used to encapsulate custom business logic
+        </p>
+        <p>
+          Can be turned into a full Component
+        </p>
       </section>
 
       <section>
-        <h2>Message / Exchange</h2>
+        <h2>Message Exchange</h2>
+        <p>
+          Supports multiple Exchange Patterns
+        </p>
+        <p>
+          <ul>
+            <li>
+              One Way Event Message EIP
+            </li>
+            <li>
+              Request Reply Message EIP
+            </li>
+          </ul>
+        </p>
+        <p>
+          Implements Message EIP
+        </p>
       </section>
 
       <section data-background="images/rh_bg4.jpg" data-background-size="contain">
@@ -1105,10 +1183,51 @@ from(newOrder)
 
       <section>
         <h2>Multiple Platforms</h2>
+        <p>
+          Anywhere that supports Java 1.6
+        </p>
+        <p>
+          <ul>
+            <li>Standard JVM</li>
+            <li>OSGi</li>
+            <li>Tomcat</li>
+            <li>Application Servers</li>
+            <li>Spring</li>
+          </ul>
+        </p>
       </section>
 
       <section>
-        <h2>Red Hat Products</h2>
+        <h2>Camel and Red Hat</h2>
+        <p>
+          Included in JBoss Fuse
+        </p>
+        <p>
+          Included in JBoss Fuse Service Works
+        </p>
+        <p>
+          <ul>
+            <li>
+              Run as part of SwitchYard
+            </li>
+            <li>
+              Run outside of SwitchYard on EAP Container
+            </li>
+          </ul>
+        </p>
+        <p>
+          Supported on EAP 6.1.1+
+        </p>
+        <p>
+          <ul>
+            <li>
+              Requires JBoss Fuse &amp; JBoss EAP Subscription
+            </li>
+            <li>
+              Must use Camel libraries from JBoss Fuse
+            </li>
+          </ul>
+        </p>
       </section>
 
       <section data-background="images/rh_bg5.jpg" data-background-size="contain">
@@ -1124,7 +1243,63 @@ from(newOrder)
       </section>
 
       <section>
-        <h2>TODO</h2>
+        <h2>Camel v3 Improvements</h2>
+        <p>
+          Improved Test Support
+        </p>
+        <p>
+          <ul>
+            <li>Support for testing indiviual components, processors, etc...</li>
+          </ul>
+        </p>
+        <p>
+          Persistent Message Store
+        </p>
+        <p>
+          Java 8 DSL
+        </p>
+        <p>
+          Split/Optimize Camel-CXF
+        </p>
+      </section>
+
+      <section>
+        <h2>Camel on EAP Subsystem</h2>
+        <p>
+          Full EAP Subsystem
+        </p>
+        <p>
+          Improved Integration with JEE Standards
+        </p>
+        <p>
+          Updated JEE Related Camel Components
+        </p>
+        <p>
+          <ul>
+            <li>camel-cdi</li>
+            <li>camel-cxf</li>
+            <li>camel-jaxb</li>
+            <li>camel-jms</li>
+            <li>camel-jmx</li>
+            <li>camel-jpa</li>
+          </ul>
+        </p>
+        <p>
+          Full Arquillian Support
+        </p>
+        <p>
+          Available now in Wildfly 8.1
+        </p>
+        <p>
+          Official Support in future Fuse Release
+        </p>
+        <p>
+          <ul>
+            <li>
+              Targeted for Fuse 6.2
+            </li>
+          </ul>
+        </p>
       </section>
 
       <section data-background="images/rh_bg1.jpg" data-background-size="contain">
