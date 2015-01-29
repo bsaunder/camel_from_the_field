@@ -1198,36 +1198,118 @@ from(newOrder)
       </section>
 
       <section>
-        <h2>Camel and Red Hat</h2>
-        <p>
-          Included in JBoss Fuse
-        </p>
-        <p>
-          Included in JBoss Fuse Service Works
-        </p>
-        <p>
-          <ul>
-            <li>
-              Run as part of SwitchYard
-            </li>
-            <li>
-              Run outside of SwitchYard on EAP Container
-            </li>
-          </ul>
-        </p>
-        <p>
-          Supported on EAP 6.1.1+
-        </p>
-        <p>
-          <ul>
-            <li>
-              Requires JBoss Fuse &amp; JBoss EAP Subscription
-            </li>
-            <li>
-              Must use Camel libraries from JBoss Fuse
-            </li>
-          </ul>
-        </p>
+        <section>
+          <h2>Camel and Red Hat</h2>
+          <p>
+            Included in JBoss Fuse
+          </p>
+          <p>
+            Included in JBoss Fuse Service Works
+          </p>
+          <p>
+            <ul>
+              <li>
+                Run as part of SwitchYard
+              </li>
+              <li>
+                Run outside of SwitchYard on EAP Container
+              </li>
+            </ul>
+          </p>
+          <p>
+            Supported on EAP 6.1.1+
+          </p>
+          <p>
+            <ul>
+              <li>
+                Requires JBoss Fuse &amp; JBoss EAP Subscription
+              </li>
+              <li>
+                Must use Camel libraries from JBoss Fuse
+              </li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>JBoss Fuse</h2>
+          <img src="images/jboss_fuse.png" />
+          <aside class="notes">
+            Leightwieght Integration Platform. Full ESB. OSGi on Karaf.
+          </aside>
+        </section>
+
+        <section>
+          <h2>JBoss Fuse Service Works</h2>
+          <img src="images/jboss_fsw.png" />
+          <aside class="notes">
+            EAP 6. SwitchYard for SCA. Service Orchestration. Rules processing. Governance.
+          </aside>
+        </section>
+
+        <section>
+          <h2>Fuse or Service Works</h2>
+          <p>
+            Use Fuse if...
+          </p>
+          <p>
+            <ul>
+              <li>Dont use Java or JEE</li>
+              <li>Dont use EAP</li>
+              <li>Use OSGi or Karaf</li>
+              <li>Governance is not needed</li>
+              <li>No SCA requirement</li>
+            </ul>
+          </p>
+          <p>
+            Use Fuse Service Works if...
+          </p>
+          <p>
+            <ul>
+              <li>​Use JEE</li>
+              <li>Want to use JEE in Services</li>
+              <li>Currently use EAP</li>
+              <li>Need Governance</li>
+              <li>Need SCA or already use SwitchYard</li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>Camel Considerations</h2>
+          <p>
+            For Fuse...
+          </p>
+          <p>
+            <ul>
+              <li>Can use Blueprint/Spring/Java DSL for Routes</li>
+              <li>Most configuration is done via XML</li>
+              <li>Testing relies on PaxExam and Built in Camel Test Frameworks</li>
+            </ul>
+          </p>
+          <p>
+            For Fuse Service Works w/ SwitchYard...
+          </p>
+          <p>
+            <ul>
+              <li>SwitchYard limits amount of Components you can use</li>
+              <li>JEE Stack well Supported</li>
+              <li>No XML Configuration</li>
+              <li>Can make use of Arquillian</li>
+            </ul>
+          </p>
+          <p>
+            For Camel on EAP...
+          </p>
+          <p>
+            <ul>
+              <li>Can use CDI or Spring</li>
+              <li>JEE Stack not currently well supported</li>
+              <li>Most Components use Spring for configuration</li>
+              <li>Can make use of Arquillian</li>
+            </ul>
+          </p>
+        </section>
       </section>
 
       <section data-background="images/rh_bg5.jpg" data-background-size="contain">
@@ -1235,7 +1317,148 @@ from(newOrder)
       </section>
 
       <section>
-        <h2>TODO</h2>
+        <section>
+          <h2>Camel on EAP w/ CDI</h2>
+        </section>
+
+        <section>
+          <h2>Problem</h2>
+          <p>
+            TODO
+          </p>
+        </section>
+
+        <section>
+          <h2>Solution</h2>
+          <p>
+            TODO
+          </p>
+        </section>
+
+        <section>
+          <h2>Camel-CDI Demo</h2>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>Configuring Components in CDI</h2>
+        </section>
+
+        <section>
+          <h2>Problem</h2>
+          <p>
+            TODO
+          </p>
+        </section>
+
+        <section>
+          <h2>Solution</h2>
+          <p>
+            TODO
+          </p>
+        </section>
+
+        <section>
+          <h2>JBoss A-MQ</h2>
+          <p>
+            TODO
+          </p>
+        </section>
+
+        <section>
+          <h2>Camel JMS vs ActiveMQ</h2>
+          <p>
+            TODO
+          </p>
+        </section>
+
+        <section>
+          <h2>Camel-ActiveMQ Demo</h2>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>Web Services in CDI</h2>
+        </section>
+
+        <section>
+          <h2>Problem</h2>
+          <p>
+            TODO
+          </p>
+        </section>
+
+        <section>
+          <h2>Solution</h2>
+          <p>
+            TODO
+          </p>
+        </section>
+
+        <section>
+          <h2>JAX-WS Demo</h2>
+        </section>
+
+        <section>
+          <h2>Similarities to JAX-WS</h2>
+          <p>
+            TODO
+          </p>
+        </section>
+
+        <section>
+          <h2>JAX-RS Demo</h2>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>Testing with PaxExam</h2>
+        </section>
+
+        <section>
+          <h2>Description</h2>
+          <p>
+            TODO
+          </p>
+        </section>
+
+        <section>
+          <h2>PaxExam on Karaf Demo</h2>
+        </section>
+      </section>
+
+      <section>
+        <h2>Mocking in Arquillian</h2>
+        <p>
+          https://mojo.redhat.com/docs/DOC-926816
+        </p>
+      </section>
+
+      <section>
+        <h2>Camel &amp; SwitchYard Test Support</h2>
+        <p>
+          https://mojo.redhat.com/docs/DOC-926816
+        </p>
+      </section>
+
+      <section>
+        <h2>MDB vs Camel JMS</h2>
+        <p>
+          https://mojo.redhat.com/message/952681#952681
+        </p>
+        <p>
+          JMS Component Built on Spring JMS, Single Thread
+        </p>
+      </section>
+
+      <section>
+        <h2>Attachments over JMS</h2>
+        <p>
+          http://camel.465427.n5.nabble.com/Queue-email-to-JMS-then-route-to-mail-component-td3343142.html#a3343213
+        </p>
       </section>
 
       <section data-background="images/rh_bg6.jpg" data-background-size="contain">
