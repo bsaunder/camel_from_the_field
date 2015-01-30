@@ -1431,34 +1431,165 @@ from(newOrder)
       </section>
 
       <section>
-        <h2>Mocking in Arquillian</h2>
-        <p>
-          https://mojo.redhat.com/docs/DOC-926816
-        </p>
-      </section>
+        <section>
+          <h2>Camel &amp; SwitchYard Test Support</h2>
+          <p>
+            Camel and SwitchYard both include Test Frameworks
+          </p>
+          <p>
+            Mocks created with Camel Test cannot replace SwitchYard Endpoints
+          </p>
+          <p>
+            <ul>
+              <li>
+                Intercept Messages and Route to Mockable Endpoint
+              </li>
+            </ul>
+          </p>
+          <p>
+            SwitchYard expects Route to Start with SwitchYard Endpoint
+          </p>
+          <p>
+            <ul>
+              <li>
+                Define two Routes
+              </li>
+              <li>
+                First Route has SwitchYard Endpoint and Forwards to Second Route
+              </li>
+              <il>
+                Second Route starts with a Mockable Endpoint (Usually Direct)
+              </il>
+            </ul>
+          </p>
+        </section>
 
-      <section>
-        <h2>Camel &amp; SwitchYard Test Support</h2>
-        <p>
-          https://mojo.redhat.com/docs/DOC-926816
-        </p>
+        <section>
+          <h2>Camel &amp; SwitchYard Test Support</h2>
+          <pre>
+            <code data-java>
+public class SomeTestClass extends CamelTestSupport {
+  private static final String MESSAGE = "...";
+  @Test
+  public void someTest() throws Exception {
+    MockEndpoint endpoint = getMockEndpoint("mock:switchyard:WebOutService");
+    endpoint.expectedBodiesReceived(MESSAGE);
+    template.sendBody("direct:WebInService", MESSAGE);
+    endpoint.assertIsSatisfied();
+  }
+  @Override
+  protected RouteBuilder createRouteBuilder() throws Exception {
+    return new WebInServiceRoute() {
+      @Override
+      public void configure() throws Exception {
+        interceptSendToEndpoint("switchyard://WebOutService")
+        .skipSendToOriginalEndpoint().to(
+        "mock:switchyard:WebOutService");
+        super.configure();
+      }
+    };
+  }
+}
+            </code>
+          </pre>
+          <pre>
+            <code data-java>
+from("switchyard://WebInService").to("direct:WebInService");
+from("direct:WebInService").log("Doing something very clever").to("switchyard://WebInCanonicalSystem");
+            </code>
+          </pre>
+        </section>
       </section>
 
       <section>
         <h2>MDB vs Camel JMS</h2>
         <p>
-          https://mojo.redhat.com/message/952681#952681
+          Using an MDB Generally offers Higher Performance
         </p>
         <p>
-          JMS Component Built on Spring JMS, Single Thread
+          Use a Producer Template to send to a Direct Camel Route
+        </p>
+        <p>
+          MDB Uses Containers Pooled Resource Adapter
+        </p>
+        <p>
+          Camel JMS Component Built on Spring JMS
+        </p>
+        <p>
+          <ul>
+            <li>
+              Uses the DefaultMessageListenerContainer
+            </li>
+            <li>
+              Shares a Single Connection for all Consumers
+            </li>
+          </ul>
         </p>
       </section>
 
       <section>
-        <h2>Attachments over JMS</h2>
-        <p>
-          http://camel.465427.n5.nabble.com/Queue-email-to-JMS-then-route-to-mail-component-td3343142.html#a3343213
-        </p>
+        <section>
+          <h2>Attachments over JMS</h2>
+          <p>
+            Not Supported by Camel or any of its JMS based Components
+          </p>
+          <p>
+            Two Solutions
+          </p>
+          <p>
+            <ul>
+              <li>
+                Move Attachment into Message Body with a Custom Object
+              </li>
+              <li>
+                Use the Claim Check EIP
+              </li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>Claim Check EIP</h2>
+          <p>
+            Replaces Message Data with a Unique ID for Future Retrieval
+          </p>
+          <p>
+            Data stored into Persistent Data Store
+          </p>
+          <p>
+            Data Retrieved later using Unique ID
+          </p>
+          <img src="images/ClaimCheck.gif" width="100%"/>
+        </section>
+
+        <section>
+          <h2>Claim Check EIP Example</h2>
+          <pre>
+            <code data-java>
+from("direct:start").to("bean:checkLuggage").to("jms:queue:SomeQueue");
+from("jms:queue:SomeQueue").to("bean:dataEnricher").log("Do Stuff");
+            </code>
+          </pre>
+          <pre>
+            <code data-java>
+public static final class CheckLuggageBean {
+  public void checkLuggage(Exchange exchange, @Body String body, @XPath("/order/@custId") String custId) {
+    dataStore.put(custId, body);
+    exchange.getIn().setHeader("claimCheck", custId);
+    exchange.getIn().setBody(null);
+  }
+}
+
+public static final class DataEnricherBean {
+  public void addDataBackIn(Exchange exchange, @Header("claimCheck") String claimCheck) {
+    exchange.getIn().setBody(dataStore.get(claimCheck));
+    dataStore.remove(claimCheck);
+    exchange.getIn().removeHeader("claimCheck");
+  }
+}
+            </code>
+          </pre>
+        </section>
       </section>
 
       <section data-background="images/rh_bg6.jpg" data-background-size="contain">
