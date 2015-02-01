@@ -1321,25 +1321,283 @@ from(newOrder)
 
       <section>
         <section>
-          <h2>Camel on EAP w/ CDI</h2>
+          <h2>Camel on EAP</h2>
+          <p>
+            Use Camel without SwitchYard or Karaf
+          </p>
+          <p>
+            Supported on EAP 6.1.1 and up with Camel 2.12 Red Hat Libraries
+          </p>
+          <p>
+            Two ways to use Libraries
+          </p>
+          <p>
+            <ul>
+              <li>
+                Packaged inside Application
+              </li>
+              <li>
+                Deployed as EAP Module
+              </li>
+            </ul>
+          </p>
+          <p>
+            Camel Started with 3 methods
+          </p>
+          <p>
+            <ul>
+              <li>Spring ContextLoaderListener</li>
+              <li>ServletListener Component</li>
+              <li>CDI Component</li>
+            </ul>
+          </p>
+          <aside class="notes">
+            Camel Libs are packaged with Fuse. Fuse &amp; EAP or FSW Sub Required.
+          </aside>
         </section>
 
         <section>
-          <h2>Problem</h2>
+          <h2>Starting with Spring</h2>
           <p>
-            TODO
+            Requires Spring
+          </p>
+          <p>
+            Best if already using Spring
+          </p>
+          <p>
+            Camel uses Spring's Bean Registry
+          </p>
+          <p>
+            Started using Spring ContextLoaderListener
+          </p>
+          <p>
+            Configuration very similar to Fuse with Spring or Blueprint
           </p>
         </section>
 
         <section>
-          <h2>Solution</h2>
+          <h2>Spring Example </h2>
           <p>
-            TODO
+            Example web.xml
+          </p>
+          <pre>
+            <code data-xml>
+&lt;web-app ...&gt;
+  &lt;display-name&gt;soap-contract-first&lt;/display-name&gt;
+
+  &lt;!-- Config Location --&gt;
+  &lt;context-param&gt;
+    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+    &lt;param-value&gt;classpath:META-INF/spring/*.xml&lt;/param-value&gt;
+  &lt;/context-param&gt;
+
+  &lt;!-- Spring Listener Servlet --&gt;
+  &lt;listener&gt;
+    &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;
+  &lt;/listener&gt;
+&lt;/web-app&gt;
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Spring Example</h2>
+          <p>
+            Example camel-route.xml
+          </p>
+          <pre>
+            <code data-xml>
+&lt;beans ...&gt;
+
+  &lt;import resource="classpath:META-INF/spring/camel-cxf.xml" /&gt;
+  &lt;camelContext xmlns="http://camel.apache.org/schema/spring"&gt;
+    &lt;route&gt;
+      &lt;from uri="cxf:bean:orderEndpoint" /&gt;
+      &lt;log message="&gt;&gt; Received SOAP Endpoint: ${body}"&gt;&lt;/log&gt;
+      &lt;setBody&gt;
+        &lt;simple&gt;DONE&lt;/simple&gt;
+      &lt;/setBody&gt;
+    &lt;/route&gt;
+  &lt;/camelContext&gt;
+
+&lt;/beans&gt;
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Starting with Spring Demo</h2>
+          <br/><br/>
+          <p style="text-align: center">
+            <a href="https://github.com/bsaunder/camel/tree/master/eap_6/soap-contract-first" target="_BLANK">https://github.com/bsaunder/camel/tree/master/eap_6/soap-contract-first</a>
           </p>
         </section>
 
         <section>
-          <h2>Camel-CDI Demo</h2>
+          <h2>Starting without Spring</h2>
+          <p>
+            Does not Require Spring
+          </p>
+          <p>
+            Best if using JEE, but do not need to access Camel with JEE Stack
+          </p>
+          <p>
+            Camel uses a Simple Map based Bean Registry (Can also use JNDI)
+          </p>
+          <p>
+            Started using CamelServletContextListener
+          </p>
+          <p>
+            Configuration XML Based
+          </p>
+          <p>
+            <ul>
+              <li>
+                Route Builders defined in web.xml
+              </li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>ServletListener Configuration</h2>
+          <p>
+            Example web.xml
+          </p>
+          <pre>
+            <code data-xml>
+&lt;web-app ...&gt;
+  &lt;display-name&gt;servlet_listener&lt;/display-name&gt;
+
+  &lt;!-- Set CamelContext name --&gt;
+  &lt;context-param&gt;
+    &lt;param-name&gt;name&lt;/param-name&gt;
+    &lt;param-value&gt;myCamelContext&lt;/param-value&gt;
+  &lt;/context-param&gt;
+  &lt;context-param&gt;
+    &lt;param-name&gt;routeBuilder-JavaRoute&lt;/param-name&gt;
+    &lt;param-value&gt;net.bryansaunders.camel.servlet_listener.JavaRoute&lt;/param-value&gt;
+  &lt;/context-param&gt;
+  &lt;context-param&gt;
+    &lt;param-name&gt;routeBuilder-XmlRoute&lt;/param-name&gt;
+    &lt;param-value&gt;classpath:camel-routes.xml&lt;/param-value&gt;
+  &lt;/context-param&gt;
+  &lt;listener&gt;
+    &lt;listener-class&gt;org.apache.camel.component.servletlistener.SimpleCamelServletContextListener&lt;/listener-class&gt;
+  &lt;/listener&gt;
+
+&lt;/web-app&gt;
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>ServletListener Component Demo</h2>
+          <br/><br/>
+          <p style="text-align: center">
+            <a href="https://github.com/bsaunder/camel/tree/master/eap_6/servlet_listener" target="_BLANK">https://github.com/bsaunder/camel/tree/master/eap_6/servlet_listener</a>
+          </p>
+        </section>
+
+        <section>
+          <h2>Bootstrapping with CDI</h2>
+          <p>
+            Does not Require Spring or use Servlets
+          </p>
+          <p>
+            Best if using JEE, Especially CDI
+          </p>
+          <p>
+            Camel uses CDI Bean Manager
+          </p>
+          <p>
+            Started using an @Startup @Singleton Annotated Bean
+          </p>
+          <p>
+            All Configuration done in Java, No XML
+          </p>
+        </section>
+
+        <section>
+          <h2>Camel Bootstrap Class</h2>
+          <p>
+            Must be a Singleton, @Singleton
+          </p>
+          <p>
+            Must run at Startup. @Startup
+          </p>
+          <p>
+            Inject an instance of CdiCamelContext
+          </p>
+          <p>
+            <ul>
+              <li>
+                Adds a CDI Bean Registry that allows lookup of CDI Beans when Instantiated
+              </li>
+            </ul>
+          </p>
+          <p>
+            @PostConstruct method should Configure/Start Context and Add Routes
+          </p>
+          <p>
+            @PreDestroy should Stop Camel Context
+          </p>
+        </section>
+
+        <section>
+          <h2>Example Bootstrap Class</h2>
+          <pre>
+            <code data-java>
+@Singleton
+@Startup
+public class Bootstrap {
+
+  @Inject
+  private CdiCamelContext camelCtx;
+  @Inject
+  private SomeRouteBuilder someRoute;
+
+  @PostConstruct
+  public void init() throws Exception {
+    this.camelCtx.addRoutes(someRoute);
+    this.camelCtx.setName("my-camel-context");
+    this.camelCtx.start();
+  }
+
+  @PreDestroy
+  public void stop() throws Exception {
+    this.camelCtx.stop();
+  }
+}
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Using the XML Based DSL</h2>
+          <p>
+            Spring and Blueprint XML routes can also be used
+          </p>
+          <p>
+            Routes loaded from XML file in Bootstrap Class
+          </p>
+          <pre>
+            <code data-java>
+InputStream is = this.getClass().getClassLoader().getResourceAsStream("camel-routes.xml");
+if (is != null) {
+  RoutesDefinition routes = this.camelCtx.loadRoutesDefinition(is);
+  this.camelCtx.addRouteDefinitions(routes.getRoutes());
+}
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>CDI Component Demo</h2>
+          <br/><br/>
+          <p style="text-align: center">
+            <a href="https://github.com/bsaunder/camel/tree/master/eap_6/cdi-soap-consume" target="_BLANK">https://github.com/bsaunder/camel/tree/master/eap_6/cdi-soap-consume</a>
+          </p>
         </section>
       </section>
 
@@ -1407,12 +1665,8 @@ from(newOrder)
         <section>
           <h2>Similarities to JAX-WS</h2>
           <p>
-            TODO
+            TODO - Similar Problem with JAX-RS, Same Solution
           </p>
-        </section>
-
-        <section>
-          <h2>JAX-RS Demo</h2>
         </section>
       </section>
 
