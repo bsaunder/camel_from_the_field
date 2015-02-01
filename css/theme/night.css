@@ -287,19 +287,19 @@ body {
   color: #fff;
   background: #d0881d; }
 
-  .reveal a:not(.image) {
-    color: #cc0000;
-    text-decoration: none;
-    -webkit-transition: color .15s ease;
-    -moz-transition: color .15s ease;
-    -ms-transition: color .15s ease;
-    -o-transition: color .15s ease;
-    transition: color .15s ease; }
+.reveal a:not(.image) {
+  color: #cc0000;
+  text-decoration: none;
+  -webkit-transition: color .15s ease;
+  -moz-transition: color .15s ease;
+  -ms-transition: color .15s ease;
+  -o-transition: color .15s ease;
+  transition: color .15s ease; }
 
-    .reveal a:not(.image):hover {
-      color: #ec7a08;
-      text-shadow: none;
-      border: none; }
+.reveal a:not(.image):hover {
+  color: #ec7a08;
+  text-shadow: none;
+  border: none; }
 
 /*********************************************
  * IMAGES

@@ -97,7 +97,7 @@
     <!-- Any section element inside of this container is displayed as a slide -->
     <div class="slides">
 
-      <section data-background="images/rh_bg1.jpg" data-background-size="contain" data-background-position="center" data-transition="slide">
+      <section data-background="images/rh_bg_3.png" data-background-size="contain" data-background-position="center" data-transition="slide">
         <h1 align=left>Camel from the Field</h1>
         <h2 align=left></h2>
         <br />
@@ -133,7 +133,7 @@
         </ul>
       </section>
 
-      <section data-background="images/rh_bg2.jpg" data-background-size="contain">
+      <section data-background="images/rh_bg_1.png" data-background-size="contain">
         <h1>Introduction to Camel</h1>
       </section>
 
@@ -272,23 +272,23 @@ from("file:src/data?noop=true")
         <h2>Spring XML</h2>
         <pre>
           <code data-trim>
-<route>
-  <from uri="direct:a"/>
-  <choice>
-    <when>
-      <xpath>$foo = 'bar'</xpath>
-      <to uri="direct:b"/>
-    </when>
-    <when>
-      <xpath>$foo = 'cheese'</xpath>
-      <to uri="direct:c"/>
-    </when>
-    <otherwise>
-      <to uri="direct:d"/>
-    </otherwise>
-  </choice>
-</route>
-          </code>
+&lt;route&gt;
+  &lt;from uri="direct:a"/&gt;
+  &lt;choice&gt;
+    &lt;when&gt;
+      &lt;xpath&gt;$foo = 'bar'&lt;/xpath&gt;
+      &lt;to uri="direct:b"/&gt;
+    &lt;/when&gt;
+    &lt;when&gt;
+      &lt;xpath&gt;$foo = 'cheese'&lt;/xpath&gt;
+      &lt;to uri="direct:c"/&gt;
+    &lt;/when&gt;
+    &lt;otherwise&gt;
+      &lt;to uri="direct:d"/&gt;
+    &lt;/otherwise&gt;
+  &lt;/choice&gt;
+&lt;/route&gt;
+        </code>
         </pre>
       </section>
 
@@ -311,14 +311,14 @@ rest("/say")
             <td>
               <pre>
                 <code data-trim>
-<rest path="/say">
-  <get uri="/hello">
-    <to uri="direct:hello"/>
-  </get>
-  <get uri="/bye" consumes="application/json">
-    <to uri="direct:bye"/>
-  </get>
-</rest>
+&lt;rest path="/say"&gt;
+  &lt;get uri="/hello"&gt;
+    &lt;to uri="direct:hello"/&gt;
+  &lt;/get&gt;
+  &lt;get uri="/bye" consumes="application/json"&gt;
+    &lt;to uri="direct:bye"/&gt;
+  &lt;/get&gt;
+&lt;/rest&gt;
                 </code>
               </pre>
             </td>
@@ -1067,7 +1067,7 @@ from(newOrder)
         </section>
       </section>
 
-      <section data-background="images/rh_bg3.jpg" data-background-size="contain">
+      <section data-background="images/rh_bg_4.png" data-background-size="contain">
         <h1>Architecture</h1>
       </section>
 
@@ -1177,7 +1177,7 @@ from(newOrder)
         </p>
       </section>
 
-      <section data-background="images/rh_bg4.jpg" data-background-size="contain">
+      <section data-background="images/rh_bg_5.png" data-background-size="contain">
         <h1>Supported Platforms</h1>
       </section>
 
@@ -1309,10 +1309,13 @@ from(newOrder)
               <li>Can make use of Arquillian</li>
             </ul>
           </p>
+          <aside class="notes">
+            Arquillian OSGi also exists for Fuse, May Not be as Mature as PaxExam.
+          </aside>
         </section>
       </section>
 
-      <section data-background="images/rh_bg5.jpg" data-background-size="contain">
+      <section data-background="images/rh_bg_2.png" data-background-size="contain">
         <h1>Hands On Camel</h1>
       </section>
 
@@ -1415,18 +1418,416 @@ from(newOrder)
 
       <section>
         <section>
-          <h2>Testing with PaxExam</h2>
-        </section>
-
-        <section>
-          <h2>Description</h2>
+          <h2>Testing with Pax Exam</h2>
           <p>
-            TODO
+            In-Container Testing Framework for OSGi, Java EE, and CDI
+          </p>
+          <p>
+            Similar to Arquillian
+          </p>
+          <p>
+            Uses a Test Driver and a Test Container
+          </p>
+          <p>
+            <ul>
+              <li>
+                Test Driver launches the OSGi framework and the system under test
+              </li>
+              <li>
+                Probe Builds Bundles from Test Cases and Injects into the Container
+              </li>
+            </ul>
+          </p>
+          <p>
+            JUnit and TestNG Drivers
+          </p>
+          <p>
+            Drivers are Annotation Based
           </p>
         </section>
 
         <section>
-          <h2>PaxExam on Karaf Demo</h2>
+          <h2>Pax Exam</h2>
+          <p>
+            Supports All Major OSGi Frameworks
+          </p>
+          <p>
+            <ul>
+              <li>
+                Equinox, Felix, Knoplerfish, Karaf
+              </li>
+            </ul>
+          </p>
+          <p>
+            Multiple Strategies for Restarting and Reusing the Running OSGi Framework for each Test
+          </p>
+          <p>
+            Two Types of Containers
+          </p>
+          <p>
+            <ul>
+              <li>
+                Native runs in the same VM as the Test Driver
+              </li>
+              <li>
+                Forked runs in a separate VM from the Test Driver
+              </li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>Pax Exam Karaf Container</h2>
+          <p>
+            Eases Integration Testing with Pax Exam and Karaf
+          </p>
+          <p>
+            Provides an Actual Karaf Container for Testing
+          </p>
+          <p>
+            Supports any Karaf Based Distribution (Fuse, Service Mix, Geronimo)
+          </p>
+          <p>
+            Maintained as Official Pax Exam modules
+          </p>
+          <p>
+            Adds Karaf Specific Support
+          </p>
+        </section>
+
+        <section>
+          <h2>Container Configuration</h2>
+          <p>
+            Controls the Host Container
+          </p>
+          <p>
+            Determines the Set of Bundles and Features provisioned to the Container
+          </p>
+          <p>
+            Builds and Configures the Container Environment
+          </p>
+          <p>
+            Multiple Methods of Specifying Configuration Options
+          </p>
+          <p>
+            <ul>
+              <li>
+                One or more Methods Annotated with @Configuration that return Option[]
+              </li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>Probe</h2>
+          <p>
+            Artifact added to the Container for Testing
+          </p>
+          <p>
+            Created on the Fly by Pax TinyBundles
+          </p>
+          <p>
+            Contains the Current Test Classes and All Classes/Resources under the Same Root
+          </p>
+          <p>
+            Can be Configured inside the Test Class if needed
+          </p>
+        </section>
+
+        <section>
+          <h2>Writing Testable Routes</h2>
+          <p>
+            Anything that needs to Change during a Test should be Externalized
+          </p>
+          <p>
+            <ul>
+              <li>All Endpoints</li>
+              <li>Configuration Values</li>
+              <li>Header Names</li>
+              <li>Etc...</li>
+            </ul>
+          </p>
+          <p>
+            Integrations with External Resources should be Mock able
+          </p>
+          <p>
+            <ul>
+              <li>Database Connections</li>
+              <li>Messaging Brokers</li></li>
+              <li>Etc...</li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>Generating Dependency File</h2>
+          <p>
+            Generate using the Maven Plugin
+          </p>
+          <pre>
+            <code data-xml>
+&lt;plugin&gt;
+  &lt;groupId&gt;org.apache.servicemix.tooling&lt;/groupId&gt;
+  &lt;artifactId&gt;depends-maven-plugin&lt;/artifactId&gt;
+  &lt;version&gt;1.2&lt;/version&gt;
+  &lt;executions&gt;
+    &lt;execution&gt;
+      &lt;id&gt;generate-depends-file&lt;/id&gt;
+      &lt;goals&gt;
+        &lt;goal&gt;generate-depends-file&lt;/goal&gt;
+      &lt;/goals&gt;
+    &lt;/execution&gt;
+  &lt;/executions&gt;
+&lt;/plugin&gt;
+            </code>
+          </pre>
+          <p>
+            Should use the versionAsInProject() method in Container Configuration
+          </p>
+        </section>
+
+        <section>
+          <h2>Configuring the Container</h2>
+          <p>
+            Container Configuration is Done with the @Configuration Annotation
+          </p>
+          <p>
+            Method should Return Option[]
+          </p>
+          <p>
+            Used for
+          </p>
+          <p>
+            <ul>
+              <li>Specifying the Distribution</li>
+              <li>Setting Distribution Properties
+                <ul>
+                  <li>Log Level, Unpack Directory, Start Method, Etc…</li>
+                </ul>
+              </li>
+              <li>Loading Features / Bundles</li>
+              <li>Adding/Modifying Distribution Environment
+                <ul>
+                  <li>Property Files, Etc…</li>
+                </ul>
+              </li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>Example Configuration</h2>
+          <pre>
+            <code data-java>
+@Configuration
+public static Option[] configure() throws Exception {
+  return new Option[] {
+    karafDistributionConfiguration()
+      .frameworkUrl(
+        maven().groupId("org.apache.karaf").artifactId("apache-karaf").type("zip")
+          .versionAsInProject()).useDeployFolder(false).karafVersion("3.0.0")
+      .unpackDirectory(new File("target/paxexam/unpack/")),
+    logLevel(LogLevel.WARN),
+    features(
+      maven().groupId("org.apache.camel.karaf").artifactId("apache-camel").type("xml")
+        .classifier("features").versionAsInProject(), "camel-blueprint", "camel-jms",
+      "camel-jpa", "camel-mvel", "camel-jdbc", "camel-cxf", "camel-test"),
+    KarafDistributionOption.editConfigurationFilePut("etc/org.ops4j.pax.url.mvn.cfg",
+      "org.ops4j.pax.url.mvn.proxySupport", "true"),
+    keepRuntimeFolder(),
+    KarafDistributionOption.replaceConfigurationFile("etc/com.walmart.mqm.gateway.routes.cfg", new File(
+      "src/test/resources/com.walmart.mqm.gateway.routes.cfg")),
+    mavenBundle().groupId("net.bryansaunders").artifactId("routeBundle").versionAsInProject() };
+}
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Modifying the Probe</h2>
+          <p>
+            Modified Using the @ProbeBuilder Annotation
+          </p>
+          <p>
+            Uses the Following Method Signature
+            <pre>
+              <code data-java>
+@ProbeBuilder
+public TestProbeBuilder probeConfiguration(TestProbeBuilder probe) {
+  // Do Things
+}
+              </code>
+            </pre>
+          </p>
+          <p>
+            Method should return the probe Parameter after Modification
+          </p>
+          <p>
+            Sets Probe Specific Configurations via Headers
+          </p>
+          <p>
+            Dynamically Imports all Packages by Default
+          </p>
+        </section>
+
+        <section>
+          <h2>Using Provisional Packages</h2>
+          <p>
+            Provisional Packages are by Default NOT Imported
+          </p>
+          <p>
+            Probe must be Modified to Import Them
+          </p>
+          <p>
+            Add the Following Line to your ProbeBuilder Method
+            <pre>
+              <code data-java>
+probe.setHeader(Constants.DYNAMICIMPORT_PACKAGE, "*;status=provisional");
+              </code>
+            </pre>
+          </p>
+          <aside class="notes">
+            Only imports required packages by default. Packages exported as Provisional are not imported.
+          </aside>
+        </section>
+
+        <section>
+          <h2>Getting the Camel Context</h2>
+          <p>
+            There will potentially be Multiple Camel Contexts running in the Container
+          </p>
+          <p>
+            Need to get the Correct Context for Our Tests
+          </p>
+          <p>
+            Best Done in doPreSetup() Method that can be Overridden from CamelTestSupport
+          </p>
+          <p>
+            Camel Context should be Looked Up by it’s name in the BundleContext
+          </p>
+          <pre>
+            <code data-java>
+@Override
+protected void doPreSetup() throws Exception {
+  camelContext = PaxExamTestUtil.getOsgiService(CamelContext.class,
+    "(camel.context.name=" + CAMEL_CONTEXT_NAME + ")", 10000, bundleContext);
+  assertNotNull(camelContext);
+}
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Sending Messages</h2>
+          <p>
+            2 Steps
+          </p>
+          <p>
+            <ul>
+              <li>Create/Start Producer Template</li>
+              <li>Send Message using Template</li>
+            </ul>
+          </p>
+          <pre>
+            <code data-java>
+// Set Headers To Be Sent
+final Map&lt;String, Object&gt; headerMap = new HashMap&lt;String, Object&gt;();
+headerMap.put("WM_MSG_ID", null);
+headerMap.put("WM_HO_WMQ_QUEUE", null);
+
+// Send the Message Body
+ProducerTemplate template = camelContext.createProducerTemplate();
+template.start();
+
+template.send("direct:gateway_in", new Processor() {
+  public void process(Exchange exchange) {
+    Message in = exchange.getIn();
+    in.setBody("Hello from Camel");
+    in.setHeaders(headerMap);
+  }
+});
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Using Mock Queues</h2>
+          <p>
+            Get the Endpoint from the Camel Context and Cast to a MockEndpoint
+            <pre>
+              <code data-java>
+MockEndpoint mockNoHomeOfficeDlq = (MockEndpoint)
+CamelContext.getEndpoint("mock:gateway_noHomeOfficeDlq");
+              </code>
+            </pre>
+          </p>
+          <p>
+            Set Mock Endpoint’s Expectations
+            <pre>
+              <code data-java>
+mockNoHomeOfficeDlq.expectedMessageCount(1);
+mockNoHomeOfficeDlq.expectedBodiesReceived("Hello from Camel");
+              </code>
+            </pre>
+          </p>
+          <p>
+            Send Messages to Mock Endpoint
+          </p>
+          <p>
+            Assert Mock Endpoint is Satisfied
+            <pre>
+              <code data-java>
+                mockNoHomeOfficeDlq.assertIsSatisfied(2500);
+              </code>
+            </pre>
+          </p>
+        </section>
+
+        <section>
+          <h2>Pax Exam on Karaf Demo</h2>
+          <br/><br/>
+          <p style="text-align: center">
+            <a href="https://github.com/bsaunder/camel/tree/master/fuse/pax-exam" target="_BLANK">https://github.com/bsaunder/camel/tree/master/fuse/pax-exam</a>
+          </p>
+        </section>
+
+        <section>
+          <h2>What About Arquillian?</h2>
+          <p>
+            Arquillian has OSGi support
+          </p>
+          <p>
+            Works like standard Arquillian
+          </p>
+          <p>
+            Supports Multiple Containers
+          </p>
+          <p>
+            <ul>
+              <li>
+                JBoss (Embedded)
+              </li>
+              <li>
+                Felix (Embedded)
+              </li>
+              <li>
+                Equinox (Embedded)
+              </li>
+              <li>
+                Karak (Embedded/Managed/Remote)
+              </li>
+            </ul>
+          </p>
+          <p>
+            Not as Feature Rich as Pax Exam
+          </p>
+          <p>
+            <ul>
+              <li>
+                Evolving Quickly
+              </li>
+            </ul>
+          </p>
         </section>
       </section>
 
@@ -1592,7 +1993,7 @@ public static final class DataEnricherBean {
         </section>
       </section>
 
-      <section data-background="images/rh_bg6.jpg" data-background-size="contain">
+      <section data-background="images/rh_bg_7.png" data-background-size="contain">
         <h1>Future of Camel</h1>
       </section>
 
@@ -1656,58 +2057,89 @@ public static final class DataEnricherBean {
         </p>
       </section>
 
-      <section data-background="images/rh_bg1.jpg" data-background-size="contain">
+      <section data-background="images/rh_bg_8.png" data-background-size="contain">
         <h1>Questions?</h1>
+        <br/><br/><br/><br/>
+        <p style="text-align: center;">
+          Presentation is Available At
+        </p>
+        <p style="text-align: center;">
+          <a class="titleLink" href="https://github.com/bsaunder/camel_from_the_field" target="_BLANK">https://github.com/bsaunder/camel_from_the_field</a>
+        </p>
+        <p style="text-align: center;">
+          All Demo Code is Available At
+        </p>
+        <p style="text-align: center;">
+          <a class="titleLink" href="https://github.com/bsaunder/camel/" target="_BLANK">https://github.com/bsaunder/camel/</a>
+        </p>
       </section>
 
     </div>
 
   </div>
 
+  <script>
+    document.addEventListener("DOMContentLoaded", init, false);
+
+    function init() {
+      console.log("Running Custom Init Code");
+
+      var cblocks = document.querySelectorAll("pre code");
+
+      if(cblocks.length) {
+        for(var i=0, len=cblocks.length; i<len; i++) {
+          var dom = cblocks[i];
+          var html = dom.innerHTML;
+          html = html.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+          dom.innerHTML = html;
+        }
+      }
+
+      console.log("Initializing Reveal")
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+        height: 1024,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+        // Visit http://revealjs.jit.su/token to generate your secret and id
+        multiplex: {
+          secret: null,
+          id: '',
+          url: 'revealjs.jit.su:80'
+        },
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        // Optional libraries used to extend on reveal.js
+        // Optional reveal.js plugins
+        dependencies: [
+        { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: 'plugin/zoom-js/zoom.js', async: true },
+        { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+    }
+
+  </script>
+
   <script src="lib/js/head.min.js"></script>
   <script src="js/reveal.js"></script>
-
-
-
-  <script>
-    // Full list of configuration options available here:
-    // https://github.com/hakimel/reveal.js#configuration
-    Reveal.initialize({
-    	controls: true,
-    	progress: true,
-    	history: true,
-    	center: true,
-    	// The "normal" size of the presentation, aspect ratio will be preserved
-    	// when the presentation is scaled to fit different resolutions. Can be
-    	// specified using percentage units.
-    	width: 1280,
-    	height: 1024,
-
-    	theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-    	transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
-    	// Visit http://revealjs.jit.su/token to generate your secret and id
-    	multiplex: {
-    		secret: null,
-    		id: '',
-    		url: 'revealjs.jit.su:80'
-    	},
-
-    	// Parallax scrolling
-    	// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
-    	// parallaxBackgroundSize: '2100px 900px',
-
-    	// Optional libraries used to extend on reveal.js
-      // Optional reveal.js plugins
-      dependencies: [
-      { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-      { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-      { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-      { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-      { src: 'plugin/zoom-js/zoom.js', async: true },
-      { src: 'plugin/notes/notes.js', async: true }
-      ]
-    });
-  </script>
 
 </body>
 
