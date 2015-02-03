@@ -1603,39 +1603,142 @@ if (is != null) {
 
       <section>
         <section>
-          <h2>Configuring Components in CDI</h2>
-        </section>
-
-        <section>
-          <h2>Problem</h2>
+          <h2>Configuration with Camel CDI</h2>
           <p>
-            TODO
+            No Spring Config or Context
+          </p>
+          <p>
+            With Camel CDI Components are Configured in Java
+          </p>
+          <p>
+            Configured on the Camel Context
+          </p>
+          <p>
+            All Components can be Configured
           </p>
         </section>
 
         <section>
-          <h2>Solution</h2>
+          <h2>Configuring Components</h2>
           <p>
-            TODO
+            Configred in your Bootstrap Class
+          </p>
+          <p>
+            Must be Configured Prior to Start of Camel Context
+          </p>
+          <p>
+            Lookup Existing Components with getComponent()
+          </p>
+          <p>
+            <ul>
+              <li>
+                Lookup via Registered Name - jms, activemq, etc...
+              </li>
+              <li>
+                Most Core Components already Registered on Context
+              </li>
+              <li>
+                Lazily initialize Components that arent Registered
+              </li>
+            </ul>
+          </p>
+          <p>
+            Add New Components with addComponent()
+          </p>
+          <aside class="notes">
+            Most Components Configuration Not Discussed in Docs, Lookup in JavaDocs.
+          </aside>
+        </section>
+
+        <section>
+          <h2>Sample Configuration</h2>
+          <pre>
+            <code data-java>
+@Resource(mappedName = "java:/ConnectionFactory")
+private ConnectionFactory jmsConnFactory;
+
+...
+
+JmsConfiguration jmsConfig = new JmsConfiguration(jmsConnFactory);
+jmsConfig.setConcurrentConsumers(10);
+jmsConfig.setMaxConcurrentConsumers(10);
+
+Component component = this.camelCtx.getComponent("jms");
+if (component != null) {
+  JmsComponent jmsComponent = (JmsComponent) component;
+  jmsComponent.setConfiguration(jmsConfig);
+} else {
+  this.camelCtx.addComponent("jms", new JmsComponent(jmsConfig));
+}
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>JMS Configuration Demo</h2>
+          <br/><br/>
+          <p style="text-align: center">
+            <a href="https://github.com/bsaunder/camel/tree/master/eap_6/cdi-jms" target="_BLANK">https://github.com/bsaunder/camel/tree/master/eap_6/cdi-jms</a>
           </p>
         </section>
 
         <section>
-          <h2>JBoss A-MQ</h2>
+          <h2>Camel &amp; JBoss A-MQ</h2>
           <p>
-            TODO
+            Camel has no JBoss A-MQ Component
+          </p>
+          <p>
+            Several ways to Connect to A-MQ from Camel
+          </p>
+          <p>
+            <ul>
+              <li>
+                JMS Component
+              </li>
+              <li>
+                ActiveMQ Component
+              </li>
+              <li>
+                Bean using JMS API
+              </li>
+            </ul>
           </p>
         </section>
 
         <section>
           <h2>Camel JMS vs ActiveMQ</h2>
           <p>
-            TODO
+            JMS component
           </p>
-        </section>
-
-        <section>
-          <h2>Camel-ActiveMQ Demo</h2>
+          <p>
+            <ul>
+              <li>
+                Based on Spring JMS
+              </li>
+              <li>
+                Uses Spring JmsTemplate for Sending
+              </li>
+              <li>
+                Uses Spring MessageListenerContainer for Consuming
+              </li>
+            </ul>
+          </p>
+          <p>
+            ActiveMQ Component
+          </p>
+          <p>
+            <ul>
+              <li>
+                Based on JMS Component
+              </li>
+              <li>
+                Optimized for ActiveMQ
+              </li>
+              <li>
+                Supports ActiveMQ Specific Features such as Destination Options
+              </li>
+            </ul>
+          </p>
         </section>
       </section>
 
