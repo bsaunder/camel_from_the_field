@@ -1743,33 +1743,274 @@ if (component != null) {
       </section>
 
       <section>
-        <section>
-          <h2>Web Services in CDI</h2>
-        </section>
+        <h2>MDB vs Camel JMS</h2>
+        <p>
+          Using an MDB Generally offers Higher Performance
+        </p>
+        <p>
+          Use a Producer Template to send to a Direct Camel Route
+        </p>
+        <p>
+          MDB Uses Containers Pooled Resource Adapter
+        </p>
+        <p>
+          Camel JMS Component Built on Spring JMS
+        </p>
+        <p>
+          <ul>
+            <li>
+              Uses the DefaultMessageListenerContainer
+            </li>
+            <li>
+              Shares a Single Connection for all Consumers
+            </li>
+          </ul>
+        </p>
+      </section>
 
+      <section>
         <section>
-          <h2>Problem</h2>
+          <h2>Attachments over JMS</h2>
           <p>
-            TODO
+            Not Supported by Camel or any of its JMS based Components
+          </p>
+          <p>
+            Two Solutions
+          </p>
+          <p>
+            <ul>
+              <li>
+                Move Attachment into Message Body with a Custom Object
+              </li>
+              <li>
+                Use the Claim Check EIP
+              </li>
+            </ul>
           </p>
         </section>
 
         <section>
-          <h2>Solution</h2>
+          <h2>Claim Check EIP</h2>
           <p>
-            TODO
+            Replaces Message Data with a Unique ID for Future Retrieval
           </p>
+          <p>
+            Data stored into Persistent Data Store
+          </p>
+          <p>
+            Data Retrieved later using Unique ID
+          </p>
+          <img src="images/ClaimCheck.gif" width="100%"/>
+        </section>
+
+        <section>
+          <h2>Claim Check EIP Example</h2>
+          <pre>
+            <code data-java>
+              from("direct:start").to("bean:checkLuggage").to("jms:queue:SomeQueue");
+              from("jms:queue:SomeQueue").to("bean:dataEnricher").log("Do Stuff");
+            </code>
+          </pre>
+          <pre>
+            <code data-java>
+              public static final class CheckLuggageBean {
+                public void checkLuggage(Exchange exchange, @Body String body, @XPath("/order/@custId") String custId) {
+                  dataStore.put(custId, body);
+                  exchange.getIn().setHeader("claimCheck", custId);
+                  exchange.getIn().setBody(null);
+                }
+              }
+
+              public static final class DataEnricherBean {
+                public void addDataBackIn(Exchange exchange, @Header("claimCheck") String claimCheck) {
+                  exchange.getIn().setBody(dataStore.get(claimCheck));
+                  dataStore.remove(claimCheck);
+                  exchange.getIn().removeHeader("claimCheck");
+                }
+              }
+            </code>
+          </pre>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>Web Services with Camel CDI</h2>
+          <p>
+            Web Services are common place in Integration
+          </p>
+          <p>
+            Camel has Several Web Service Related Components
+          </p>
+          <p>
+            <ul>
+              <li>CXF</li>
+              <li>CXFRS</li>
+              <li>Spring Web Services</li>
+              <li>Rest</li>
+              <li>Spark-Rest</li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>Some of the Problems</h2>
+          <p>
+            Spring Web Services require Spring
+          </p>
+          <p>
+            Rest and Spark-Rest Components not Available
+          </p>
+          <p>
+            <ul>
+              <li>
+                Part of Camel 2.14
+              </li>
+            </ul>
+          </p>
+          <p>
+            Only Leaves CXF and CXFRS
+          </p>
+          <p>
+            <ul>
+              <li>
+                Dependent on Spring for Configuration
+              </li>
+              <li>
+                Needs Servlet to Start
+              </li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>Using Camel CXF with Camel CDI</h2>
+          <p>
+            Configured via Camel Context
+          </p>
+          <p>
+            Endpoints created Programmatically
+          </p>
+          <p>
+            Requires Http Jetty Transport to Publish Service
+          </p>
+          <pre>
+            <code data-java>
+CxfEndpoint orderEndpoint = new CxfEndpoint();
+orderEndpoint.setAddress("http://localhost:9595/order");
+orderEndpoint.setServiceClass("net.bryansaunders.camel.OrderEndpoint");
+orderEndpoint.setWsdlURL("wsdl/order.wsdl");
+orderEndpoint.setCamelContext(this.camelCtx);
+camelCtx.addEndpoint("cxf:bean:orderEndpoint", orderEndpoint);
+            </code>
+          </pre>
+          <aside class="notes">
+            Stands up Jetty on a seperate port for each Endpoint, Not ideal for most Production Environments. Does not have access to the Containers Transport, Can not use CDI with Servlet because of the Bean Manager.
+          </aside>
+        </section>
+
+        <section>
+          <h2>Alternate Solution</h2>
+          <p>
+            Use the Web Services Subsystem
+          </p>
+          <p>
+            Deploy Web Services using JAX-WS
+          </p>
+          <p>
+            Use Producer Template to Call Camel from Implementation
+          </p>
+          <p>
+            Use a Direct Route
+          </p>
+          <p>
+            Route is more Flexible, Can be Called without SOAP
+          </p>
+          <p>
+            Easier to Configure more Advanced Web Services
+          </p>
+          <aside class="notes">
+            Same Problems exist with REST and CXF-RS Component. Use Rest DSL when using 2.14, In the Meantime take the same approach with JAX-RS.
+          </aside>
         </section>
 
         <section>
           <h2>JAX-WS Demo</h2>
+          <br/><br/>
+          <p style="text-align: center">
+            <a href="https://github.com/bsaunder/camel/tree/master/eap_6/cdi-jaxws-publish" target="_BLANK">https://github.com/bsaunder/camel/tree/master/eap_6/cdi-jaxws-publish</a>
+          </p>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>Camel &amp; SwitchYard Test Support</h2>
+          <p>
+            Camel and SwitchYard both include Test Frameworks
+          </p>
+          <p>
+            Mocks created with Camel Test cannot replace SwitchYard Endpoints
+          </p>
+          <p>
+            <ul>
+              <li>
+                Intercept Messages and Route to Mockable Endpoint
+              </li>
+            </ul>
+          </p>
+          <p>
+            SwitchYard expects Route to Start with SwitchYard Endpoint
+          </p>
+          <p>
+            <ul>
+              <li>
+                Define two Routes
+              </li>
+              <li>
+                First Route has SwitchYard Endpoint and Forwards to Second Route
+              </li>
+              <il>
+                Second Route starts with a Mockable Endpoint (Usually Direct)
+              </il>
+            </ul>
+          </p>
         </section>
 
         <section>
-          <h2>Similarities to JAX-WS</h2>
-          <p>
-            TODO - Similar Problem with JAX-RS, Same Solution
-          </p>
+          <h2>Camel &amp; SwitchYard Test Support</h2>
+          <pre>
+            <code data-java>
+              public class SomeTestClass extends CamelTestSupport {
+                private static final String MESSAGE = "...";
+                @Test
+                public void someTest() throws Exception {
+                  MockEndpoint endpoint = getMockEndpoint("mock:switchyard:WebOutService");
+                  endpoint.expectedBodiesReceived(MESSAGE);
+                  template.sendBody("direct:WebInService", MESSAGE);
+                  endpoint.assertIsSatisfied();
+                }
+                @Override
+                protected RouteBuilder createRouteBuilder() throws Exception {
+                  return new WebInServiceRoute() {
+                    @Override
+                    public void configure() throws Exception {
+                      interceptSendToEndpoint("switchyard://WebOutService")
+                      .skipSendToOriginalEndpoint().to(
+                      "mock:switchyard:WebOutService");
+                      super.configure();
+                    }
+                  };
+                }
+              }
+            </code>
+          </pre>
+          <pre>
+            <code data-java>
+              from("switchyard://WebInService").to("direct:WebInService");
+              from("direct:WebInService").log("Doing something very clever").to("switchyard://WebInCanonicalSystem");
+            </code>
+          </pre>
         </section>
       </section>
 
@@ -2185,168 +2426,6 @@ mockNoHomeOfficeDlq.expectedBodiesReceived("Hello from Camel");
               </li>
             </ul>
           </p>
-        </section>
-      </section>
-
-      <section>
-        <section>
-          <h2>Camel &amp; SwitchYard Test Support</h2>
-          <p>
-            Camel and SwitchYard both include Test Frameworks
-          </p>
-          <p>
-            Mocks created with Camel Test cannot replace SwitchYard Endpoints
-          </p>
-          <p>
-            <ul>
-              <li>
-                Intercept Messages and Route to Mockable Endpoint
-              </li>
-            </ul>
-          </p>
-          <p>
-            SwitchYard expects Route to Start with SwitchYard Endpoint
-          </p>
-          <p>
-            <ul>
-              <li>
-                Define two Routes
-              </li>
-              <li>
-                First Route has SwitchYard Endpoint and Forwards to Second Route
-              </li>
-              <il>
-                Second Route starts with a Mockable Endpoint (Usually Direct)
-              </il>
-            </ul>
-          </p>
-        </section>
-
-        <section>
-          <h2>Camel &amp; SwitchYard Test Support</h2>
-          <pre>
-            <code data-java>
-public class SomeTestClass extends CamelTestSupport {
-  private static final String MESSAGE = "...";
-  @Test
-  public void someTest() throws Exception {
-    MockEndpoint endpoint = getMockEndpoint("mock:switchyard:WebOutService");
-    endpoint.expectedBodiesReceived(MESSAGE);
-    template.sendBody("direct:WebInService", MESSAGE);
-    endpoint.assertIsSatisfied();
-  }
-  @Override
-  protected RouteBuilder createRouteBuilder() throws Exception {
-    return new WebInServiceRoute() {
-      @Override
-      public void configure() throws Exception {
-        interceptSendToEndpoint("switchyard://WebOutService")
-        .skipSendToOriginalEndpoint().to(
-        "mock:switchyard:WebOutService");
-        super.configure();
-      }
-    };
-  }
-}
-            </code>
-          </pre>
-          <pre>
-            <code data-java>
-from("switchyard://WebInService").to("direct:WebInService");
-from("direct:WebInService").log("Doing something very clever").to("switchyard://WebInCanonicalSystem");
-            </code>
-          </pre>
-        </section>
-      </section>
-
-      <section>
-        <h2>MDB vs Camel JMS</h2>
-        <p>
-          Using an MDB Generally offers Higher Performance
-        </p>
-        <p>
-          Use a Producer Template to send to a Direct Camel Route
-        </p>
-        <p>
-          MDB Uses Containers Pooled Resource Adapter
-        </p>
-        <p>
-          Camel JMS Component Built on Spring JMS
-        </p>
-        <p>
-          <ul>
-            <li>
-              Uses the DefaultMessageListenerContainer
-            </li>
-            <li>
-              Shares a Single Connection for all Consumers
-            </li>
-          </ul>
-        </p>
-      </section>
-
-      <section>
-        <section>
-          <h2>Attachments over JMS</h2>
-          <p>
-            Not Supported by Camel or any of its JMS based Components
-          </p>
-          <p>
-            Two Solutions
-          </p>
-          <p>
-            <ul>
-              <li>
-                Move Attachment into Message Body with a Custom Object
-              </li>
-              <li>
-                Use the Claim Check EIP
-              </li>
-            </ul>
-          </p>
-        </section>
-
-        <section>
-          <h2>Claim Check EIP</h2>
-          <p>
-            Replaces Message Data with a Unique ID for Future Retrieval
-          </p>
-          <p>
-            Data stored into Persistent Data Store
-          </p>
-          <p>
-            Data Retrieved later using Unique ID
-          </p>
-          <img src="images/ClaimCheck.gif" width="100%"/>
-        </section>
-
-        <section>
-          <h2>Claim Check EIP Example</h2>
-          <pre>
-            <code data-java>
-from("direct:start").to("bean:checkLuggage").to("jms:queue:SomeQueue");
-from("jms:queue:SomeQueue").to("bean:dataEnricher").log("Do Stuff");
-            </code>
-          </pre>
-          <pre>
-            <code data-java>
-public static final class CheckLuggageBean {
-  public void checkLuggage(Exchange exchange, @Body String body, @XPath("/order/@custId") String custId) {
-    dataStore.put(custId, body);
-    exchange.getIn().setHeader("claimCheck", custId);
-    exchange.getIn().setBody(null);
-  }
-}
-
-public static final class DataEnricherBean {
-  public void addDataBackIn(Exchange exchange, @Header("claimCheck") String claimCheck) {
-    exchange.getIn().setBody(dataStore.get(claimCheck));
-    dataStore.remove(claimCheck);
-    exchange.getIn().removeHeader("claimCheck");
-  }
-}
-            </code>
-          </pre>
         </section>
       </section>
 
